@@ -1,0 +1,59 @@
+<section class="back">
+  <div class="container">
+    <div class="row pt-5">
+      <h1 class="text-white"> Browse Movies </h1>
+    </div>
+
+    <div class="row pt-5">
+      <form [formGroup]="movieForm" (ngSubmit)="showMovieByCategory(movieForm)">
+        <div class="d-flex justify-content-between">
+          <div class="col-md-10 mb-4 mx-1">
+            <select class=" form-select" formControlName="category_id"
+              [ngClass]="[  movieForm.get('category_id')?.errors != null &&
+                            movieForm.get('category_id')?.touched ? 'is-invalid':''  ,
+                            movieForm.get('category_id')?.errors == null  &&
+                            movieForm.get('category_id')?.touched ? 'is-valid':''
+                          ]">
+              <option disabled value="null"> select Category </option>
+              <option *ngFor="let cat of categories" [value]="cat.id"> {{cat?.name}} </option>
+            </select>
+
+            <div
+            *ngIf=" movieForm.get('category_id')?.errors != null &&
+                    movieForm.get('category_id')?.touched &&
+                    movieForm.get('category_id')?.errors?.['required']">
+              select Category is required.
+            </div>
+          </div>
+
+          <div class="">
+            <input class=" py-1 bg-success px-5 fw-bold" type="submit" value="Search" [disabled]="movieForm.invalid">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="row pt-5" *ngIf="errMsg">
+      <div class="alert alert-danger py-0">
+        <p class="mb-0"> {{ errMsg }} </p>
+      </div>
+    </div>
+    <div class="row pt-5">
+      <div *ngFor="let movie of movies" class="col-lg-2 col-md-6 mb-5">
+        <div>
+          <a>
+            <img onerror="this.onerror=null;this.src='../../assets/images/example.png';" alt="movie image"
+              [src]="imageUrl+movie.image" class="w-100">
+            <div class="mb-4">
+              <h3 class="h5 mt-2 disc"> {{movie.name}} </h3>
+            </div>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-danger" [routerLink]="['/updateMovie' , movie.id]">Edit</button>
+              <button class="btn btn-danger" (click)="deleteMovie(movie.id)">Delete</button>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

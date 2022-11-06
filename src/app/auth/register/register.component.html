@@ -1,0 +1,75 @@
+<section class="back pt-5">
+  <div class="container">
+    <div class="row pt-5" *ngIf="errMsg">
+      <div class="alert alert-danger py-0">
+        <p class="mb-0"> {{ errMsg }} </p>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="mx-auto text-center  col-5 pt-5">
+        <h1 class="mb-4"> Create Your Account </h1>
+      </div>
+    </div>
+    <div class="row pt-5 justify-content-center">
+      <div class="col-md-7">
+        <form [formGroup]="userForm" (ngSubmit)="Register(userForm)">
+          <div class="mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control " formControlName="name"
+                [ngClass]="[userForm.get('name')?.errors != null && userForm.get('name')?.touched ? 'is-invalid':''  , userForm.get('name')?.errors == null && userForm.get('name')?.touched ? 'is-valid':'']">
+              <label class="second" for="floatingInput">name</label>
+            </div>
+
+            <div *ngIf="userForm.get('name')?.errors != null && userForm.get('name')?.touched && userForm.get('name')?.errors?.['required']">
+              Name is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating">
+              <input type="email" class="form-control " formControlName="email"
+                [ngClass]="[userForm.get('email')?.errors != null && userForm.get('email')?.touched ? 'is-invalid':''  , userForm.get('email')?.errors == null && userForm.get('email')?.touched ? 'is-valid':'']">
+              <label class="second" for="floatingInput">Email address</label>
+            </div>
+
+            <div *ngIf="userForm.get('email')?.errors != null && userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']">
+              Email is required.
+            </div>
+
+            <div *ngIf="userForm.get('email')?.errors != null && userForm.get('email')?.touched && userForm.get('email')?.errors?.['email']">
+              Email is not vaild.
+            </div>
+
+          </div>
+
+          <div class="mb-3">
+
+            <div class="form-floating">
+              <input type="password" class="form-control " formControlName="password"
+                [ngClass]="[userForm.get('password')?.errors != null && userForm.get('password')?.touched ? 'is-invalid':''  , userForm.get('password')?.errors == null && userForm.get('password')?.touched ? 'is-valid':'']">
+              <label class="second" for="floatingInput">Password</label>
+            </div>
+
+            <div *ngIf="userForm.get('password')?.errors != null && userForm.get('password')?.touched && userForm.get('password')?.errors?.['required']">
+              Password is required.
+            </div>
+
+            <div *ngIf="userForm.get('password')?.errors != null && userForm.get('password')?.touched && userForm.get('password')?.errors?.['pattern']">
+              The password must be at least 5 characters.
+            </div>
+
+          </div>
+
+          <div >
+            <button type="submit" class="btn btn-success fw-bold p-3 w-100" [disabled]="userForm.invalid">
+              Create Account Please
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,95 @@
+<section class="back pt-5">
+  <div class="container">
+    <div class="row pt-5" *ngIf="errMsg">
+      <div class="alert alert-danger py-0">
+        <p class="mb-0"> {{ errMsg }} </p>
+      </div>
+    </div>
+    <div class="row pt-5 justify-content-center">
+      <div class="col-md-7">
+        <form [formGroup]="movieForm" (ngSubmit)="editMovie(movieForm)">
+          <div class="mb-3">
+            <div class="form-floating">
+              <input type="text" class="form-control" formControlName="name"
+              [ngClass]="[  movieForm.get('name')?.errors != null &&
+                            movieForm.get('name')?.touched ? 'is-invalid':''  ,
+                            movieForm.get('name')?.errors == null &&
+                            movieForm.get('name')?.touched ? 'is-valid':''
+                          ]">
+              <label class="second" for="floatingInput">name</label>
+            </div>
+
+            <div class="invalid-feedback"
+            *ngIf=" movieForm.get('name')?.errors != null &&
+                    movieForm.get('name')?.touched &&
+                    movieForm.get('name')?.errors?.['required']
+                  ">
+              name is required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-floating">
+              <textarea class="form-control" formControlName="description"
+              [ngClass]="[  movieForm.get('description')?.errors != null &&
+                            movieForm.get('description')?.touched ? 'is-invalid':''  ,
+                            movieForm.get('description')?.errors == null &&
+                            movieForm.get('description')?.touched ? 'is-valid':''
+                          ]"></textarea>
+                          <label class="second" for="floatingInput">description</label>
+            </div>
+
+            <div class="invalid-feedback"
+            *ngIf=" movieForm.get('description')?.errors != null &&
+                    movieForm.get('description')?.touched &&
+                    movieForm.get('description')?.errors?.['required']">
+              description is required.
+            </div>
+          </div>
+
+
+          <div class="mt-4 mb-4">
+            <input (change)="handleImage($event)" type="file" class="form-control"
+              formControlName="image" [ngClass]="[
+                        movieForm.get('image')?.errors != null &&
+                        movieForm.get('image')?.touched ? 'is-invalid':''  ,
+                        movieForm.get('image')?.errors == null &&
+                        movieForm.get('image')?.touched ? 'is-valid':'']">
+            <div class="invalid-feedback" *ngIf="
+                        movieForm.get('image')?.errors != null &&
+                        movieForm.get('image')?.touched &&
+                        movieForm.get('image')?.errors?.['required']">
+              Image is required.
+            </div>
+          </div>
+
+
+          <div class="mb-3">
+            <select class="form-select" formControlName="category_id"
+            [ngClass]="[  movieForm.get('category_id')?.errors != null &&
+                          movieForm.get('category_id')?.touched ? 'is-invalid':''  ,
+                          movieForm.get('category_id')?.errors == null  &&
+                          movieForm.get('category_id')?.touched ? 'is-valid':'']">
+              <option disabled value="null"> select Category </option>
+              <option *ngFor="let cat of categories" [value]="cat.id"> {{cat?.name}} </option>
+            </select>
+            <div class="invalid-feedback"
+            *ngIf=" movieForm.get('category_id')?.errors != null &&
+                    movieForm.get('category_id')?.touched &&
+                    movieForm.get('category_id')?.errors?.['required']">
+              select Category is required.
+            </div>
+          </div>
+
+
+          <div class="mt-5 ">
+            <button type="submit" class="btn btn-success  fw-bold p-3 w-100" [disabled]="movieForm.invalid">
+              Edit Movie
+            </button>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
